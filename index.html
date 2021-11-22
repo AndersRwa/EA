@@ -5,7 +5,12 @@
 <body>
   <body onload="PopulateDropDownList()"></body>
 
-    <select id="kurserdrop">
+    <select id="kurserdrop" onchange="getModules(document.getElementById('kurserdrop').value)">
+      <option value="" disabled selected hidden>Välj kurs</option>
+    </select>
+
+    <select id="moduledrop">
+      <option value="" disabled selected hidden>Moduler</option>
     </select>
     <script type="text/javascript">
 
@@ -34,7 +39,32 @@
             }
           }
 
-        
+          function getModules(kurs) {
+
+            var moduler = [];
+
+            fetch ('http://localhost:8080/Epok/'+kurs)
+            .then(res => res.json())
+            .then(data => kurs = data)
+            .then(() => getModulelist(kurs))
+}
+
+function getModulelist(kurs) {
+
+var dropdown = document.getElementById("moduledrop");
+dropdown.innerHTML = '';
+
+for (var i = 0; i < kurs.length; i++) {
+      var option = document.createElement("OPTION");
+
+      //Set Customer Name in Text part.
+      option.innerHTML = kurs[i].benämning;
+
+      //Add the Option element to DropDownList.
+      dropdown.options.add(option);
+  }
+}
+
     </script>
 </body>
 </html>
