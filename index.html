@@ -1,0 +1,40 @@
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+  <body onload="PopulateDropDownList()"></body>
+
+    <select id="kurserdrop">
+    </select>
+    <script type="text/javascript">
+
+        function PopulateDropDownList() {
+
+           var kurser = [];
+
+            fetch ('http://localhost:8080/Epok')
+            .then(res => res.json())
+            .then(data => kurser = data)
+            .then(() => getList(kurser))
+        }
+
+        function getList(kurser) {
+
+          var dropdown = document.getElementById("kurserdrop");
+
+          for (var i = 0; i < kurser.length; i++) {
+                var option = document.createElement("OPTION");
+ 
+                //Set Customer Name in Text part.
+                option.innerHTML = kurser[i].kurs;
+
+                //Add the Option element to DropDownList.
+                dropdown.options.add(option);
+            }
+          }
+
+        
+    </script>
+</body>
+</html>
